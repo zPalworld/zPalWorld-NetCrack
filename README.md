@@ -17,7 +17,6 @@ Simple internal built with various code snippets and SDK from UC.me
 - Give EXP
 - Teleport Home
 - Toggle Fly
-- Normalize Health
 - Godmode
 - Max Weight (Only works in SP)
 - Set Catch Rate (Only works in SP)
@@ -33,9 +32,8 @@ Simple internal built with various code snippets and SDK from UC.me
 - 'Mask It' can be used on your player entity to hide player name.
 
 # Misc
-- Max Level
-- Give all effigies
-- Note: These commands may have unexpected side effects
+- Kill Aura
+- Crash server
 
 # SS
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/86211664-bcf6-43f4-9fdb-ac6d552d67f9)
