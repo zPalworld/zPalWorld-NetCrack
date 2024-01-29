@@ -30,6 +30,7 @@ public:
 	bool isDebugESP = false;
 	bool bisOpenManager = false;
 	bool filterPlayer = false;
+	bool filterPal = false;
 	bool bisRandomName = false;
 	bool bisTeleporter = false;
 	float SpeedModiflers = 1.0f;

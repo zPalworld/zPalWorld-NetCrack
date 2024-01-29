@@ -327,14 +327,26 @@ void ReviveLocalPlayer()
 void ResetStamina()
 {
 	APalPlayerCharacter* pPalCharacter = Config.GetPalPlayerCharacter();
-	if (!pPalCharacter)
-		return;
 
-	UPalCharacterParameterComponent* pParams = pPalCharacter->CharacterParameterComponent;
-	if (!pParams)
-		return;
+	if (pPalCharacter && pPalCharacter->CharacterParameterComponent)
+	{
+		pPalCharacter->CharacterParameterComponent->ResetSP();
+	}
 
-	pParams->ResetSP();
+	SDK::TArray<SDK::AActor*> Actors = Config.GetUWorld()->PersistentLevel->Actors;
+
+	for (int i = 0; i < Actors.Count(); i++)
+	{
+		if (Actors[i] && Actors[i]->IsA(SDK::APalCharacter::StaticClass()))
+		{
+			SDK::APalCharacter* Character = static_cast<SDK::APalCharacter*>(Actors[i]);
+
+			if (Character->CharacterParameterComponent && Character->CharacterParameterComponent->IsOtomo())
+			{
+				Character->CharacterParameterComponent->ResetSP();
+			}
+		}
+	}
 }
 
 //	
@@ -393,6 +405,7 @@ void SetInfiniteAmmo(bool bInfAmmo)
 		pWeapon->IsRequiredBullet = bInfAmmo ? false : true;
 
 }
+
 
 //	
 void SetCraftingSpeed(float mNewSpeed, bool bRestoreDefault)

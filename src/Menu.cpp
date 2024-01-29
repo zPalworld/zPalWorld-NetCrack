@@ -52,6 +52,17 @@ namespace DX11_Base
 
             //	STYLE PROPERTIES
             style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+            style.WindowPadding = ImVec2(15, 15);
+            style.WindowRounding = 5.0f;
+            style.FramePadding = ImVec2(5, 5);
+            style.FrameRounding = 4.0f;
+            style.ItemSpacing = ImVec2(12, 8);
+            style.ItemInnerSpacing = ImVec2(8, 6);
+            style.IndentSpacing = 25.0f;
+            style.ScrollbarSize = 15.0f;
+            style.ScrollbarRounding = 9.0f;
+            style.GrabMinSize = 5.0f;
+            style.GrabRounding = 3.0f;
             ImGui::StyleColorsClassic();
 
             if (g_Menu->dbg_RAINBOW_THEME) 
@@ -65,6 +76,43 @@ namespace DX11_Base
             else 
             {
                 /// YOUR DEFAULT STYLE PROPERTIES HERE
+                colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+                colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+                colors[ImGuiCol_Border] = ImVec4(0.80f, 0.80f, 0.83f, 0.88f);
+                colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
+                colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 0.98f, 0.95f, 0.75f);
+                colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+                colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+                colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+                colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+                colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+                colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+                colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+                colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+                colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+                colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
+                colors[ImGuiCol_Tab] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+                colors[ImGuiCol_TabActive] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+                colors[ImGuiCol_TabHovered] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
             }
         }
     }
@@ -76,18 +124,29 @@ namespace DX11_Base
         {
             
             //�л�����һ��
-            ImGui::Checkbox("SpeedHack", &Config.IsSpeedHack);
+            ImGui::Checkbox("Toggle Speed", &Config.IsSpeedHack);
 
-            ImGui::Checkbox("AttackHack", &Config.IsAttackModiler);
+            ImGui::Checkbox("Toggle Atk Up", &Config.IsAttackModiler);
 
-            ImGui::Checkbox("DefenseHack", &Config.IsDefuseModiler);
+            ImGui::Checkbox("Toggle Def Up", &Config.IsDefuseModiler);
 
-            ImGui::Checkbox("InfStamina", &Config.IsInfStamina);
+            ImGui::Checkbox("Inf Stamina", &Config.IsInfStamina);
 
-            if (ImGui::Checkbox("FullBright", &Config.IsFullbright))
+            ImGui::Checkbox("Infinite Ammo", &Config.IsInfinAmmo);
+            //{
+            //    if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
+            //    {
+            //        if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
+            //        {
+            //            Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet;
+            //        }
+            //    }
+            //}
+
+            if (ImGui::Checkbox("Toggle FullBright", &Config.IsFullbright))
                 SetFullbright(Config.IsFullbright);
 
-            if (ImGui::Button("RandomName", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Spoof Name", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
                 if (Config.GetPalPlayerCharacter() != NULL)
                 {
@@ -106,28 +165,30 @@ namespace DX11_Base
 
             //Creadit Mokobake
             //ImGui::Checkbox("MuteKiGodmode", &Config.IsMuteki);
-
-            if (ImGui::Button("ToggleInfAmmo",ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            //             
+            ImGui::SliderFloat("Speed Modifier", &Config.SpeedModiflers, 1, 10);
+            ImGui::SliderInt("Atk Modifier", &Config.DamageUp, 0, 200000);
+            ImGui::SliderInt("Def Modifier", &Config.DefuseUp, 0, 200000);
+            ImGui::Text("Player Position");
+            SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
+            if (p_appc != NULL)
             {
-                if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
+                if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
                 {
-                    if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
-                    {
-                        Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet;
-                    }
+                    SDK::FVector PlayerLocation = p_appc->K2_GetActorLocation();
+                    std::string MyLocation = std::format("X: {} | Y: {} | Z: {}", PlayerLocation.X, PlayerLocation.Y, PlayerLocation.Z);
+                    ImGui::Text(MyLocation.c_str());
+                    if (ImGui::Button("Print Coords", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+                        g_Console->printdbg(MyLocation.c_str(), Console::Colors::green, p_appc);
                 }
             }
-            
-            ImGui::SliderFloat("SpeedModifilers", &Config.SpeedModiflers, 1, 10);
-            ImGui::SliderInt("AttackModifilers", &Config.DamageUp, 0, 200000);
-            ImGui::SliderInt("defenseModifilers", &Config.DefuseUp, 0, 200000);
         }
         
         void TABExploit()
         {
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("Show Quick Tab", &Config.IsQuick);
-            ImGui::Checkbox("Open Manager Menu", &Config.bisOpenManager);
+            ImGui::Checkbox("Open Entity List", &Config.bisOpenManager);
             ImGui::Checkbox("Show Teleporter Tab", &Config.bisTeleporter);
             //creadit 
             //ImGui::Checkbox("PalIsMonster", &Config.IsMonster);
@@ -193,8 +254,10 @@ namespace DX11_Base
         void TABConfig()
         {
             
-            ImGui::Text("PalWorld Menu");
-            ImGui::Text("VERSION: v1.2.3");
+            ImGui::Text("NuLL");
+            ImGui::Text("Version v1.6");
+            ImGui::Text("Credits to: bluesword007");
+            ImGui::Text("Credits to: UnknownCheats.me");
 
             ImGui::Spacing();
             ImGui::Separator();
@@ -208,27 +271,72 @@ namespace DX11_Base
             }
         }
         
-        void TABDatabase()
+        //void TABDatabase()
+        //{
+        //    //ImGui::Checkbox("IsItems", &Config.matchDbItems);
+
+        //    ImGui::InputText("Filter", Config.inputTextBuffer, sizeof(Config.inputTextBuffer), ImGuiInputTextFlags_CallbackCharFilter, InputTextCallback);
+
+        //    Config.Update(Config.inputTextBuffer);
+
+        //    const auto& filteredItems = Config.GetFilteredItems();
+
+        //    for (const auto& itemName : filteredItems) {
+        //        if (ImGui::Button(itemName.c_str())) 
+        //        {
+        //                strcpy_s(Config.ItemName, itemName.c_str());
+        //                continue;
+        //        //if (Config.matchDbItems) {}
+        //        //strcpy_s(Config.PalName, itemName.c_str());
+        //        }
+        //    }
+        //}
+        
+        void TABMisc()
         {
-            //ImGui::Checkbox("IsItems", &Config.matchDbItems);
-
-            ImGui::InputText("Filter", Config.inputTextBuffer, sizeof(Config.inputTextBuffer), ImGuiInputTextFlags_CallbackCharFilter, InputTextCallback);
-
-            Config.Update(Config.inputTextBuffer);
-
-            const auto& filteredItems = Config.GetFilteredItems();
-
-            for (const auto& itemName : filteredItems) {
-                if (ImGui::Button(itemName.c_str())) 
+            if (ImGui::Button("KillAura", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
                 {
-                        strcpy_s(Config.ItemName, itemName.c_str());
-                        continue;
-                //if (Config.matchDbItems) {}
-                //strcpy_s(Config.PalName, itemName.c_str());
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+
+                        if (Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState())
+                        {
+                            SDK::TArray<SDK::AActor*> T = Config.GetUWorld()->PersistentLevel->Actors;
+                            for (int i = 0; i < T.Count(); i++)
+                            {
+
+                                if (T[i] != NULL)
+                                {
+                                    if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
+                                    {
+                                        SDK::APalCharacter* monster = (SDK::APalCharacter*)T[i];
+                                        if (monster->IsLocallyControlled())
+                                        {
+                                            continue;
+                                        }
+                                        Damage(monster, 9999999999999);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (ImGui::Button("Crash Server", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))//
+            {
+                if (Config.GetPalPlayerCharacter() != NULL)
+                {
+                    if (Config.GetPalPlayerCharacter()->GetPalPlayerController() != NULL)
+                    {
+                        Config.GetPalPlayerCharacter()->GetPalPlayerController()->RequestLiftup_ToServer(NULL);
+                    }
                 }
             }
         }
-        
+
         void TABTeleporter()
         {
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
@@ -315,7 +423,7 @@ namespace DX11_Base
             static char item_search[100];
 
             ImGui::InputText("Search", item_search, IM_ARRAYSIZE(item_search));
-
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 800), true);
             for (const auto& item : list) {
                 std::istringstream ss(item);
                 std::string left_text, right_text;
@@ -351,6 +459,7 @@ namespace DX11_Base
                 }
                 ImGui::PopID();
             }
+            ImGui::EndChild();
         }
 
         void TABQuick()
@@ -373,7 +482,7 @@ namespace DX11_Base
         
         void TABDebug()
         {
-            ImGui::Checkbox("DEBUG ESP", &Config.isDebugESP);
+            ImGui::Checkbox("Debug ESP", &Config.isDebugESP);
             if (Config.isDebugESP)
             {
                 ImGui::SameLine();
@@ -411,6 +520,7 @@ namespace DX11_Base
         }
 	}
 
+
 	void Menu::Draw()
 	{
 
@@ -424,9 +534,9 @@ namespace DX11_Base
 			ImGui::ShowDemoWindow();
 	}
 
-    void Menu::ManagerMenu()
+    void Menu::EntityList()
     {
-        if (!ImGui::Begin("Manager", &g_GameVariables->m_ShowMenu, 96))
+        if (!ImGui::Begin("Entity List", &g_GameVariables->m_ShowMenu, 96))
         {
             ImGui::End();
             return;
@@ -435,7 +545,9 @@ namespace DX11_Base
         
         if (Config.gWorld)
         {
-            ImGui::Checkbox("filterPlayer", &Config.filterPlayer);
+            ImGui::Checkbox("Player", &Config.filterPlayer);
+            ImGui::SameLine();
+            ImGui::Checkbox("Pal", &Config.filterPal);
             SDK::TArray<SDK::AActor*> T = Config.GetUWorld()->PersistentLevel->Actors;
             for (int i = 0; i < T.Count(); i++)
             {
@@ -451,6 +563,13 @@ namespace DX11_Base
                 {
                     if (!T[i]->IsA(SDK::APalPlayerCharacter::StaticClass()))
                         continue;
+                }
+                if (Config.filterPal)
+                {
+                    if (!Character->StaticCharacterParameterComponent->IsPal)
+                    {
+                        continue;
+                    }
                 }
                 if (T[i]->IsA(SDK::APalPlayerCharacter::StaticClass()))
                 {
@@ -480,6 +599,13 @@ namespace DX11_Base
                         wchar_t  ws[255];
                         swprintf(ws, 255, L"%hs", result);
                         name = SDK::FString(ws);
+                    }
+                }
+                if (Config.filterPal)
+                {
+                    if (Character->StaticCharacterParameterComponent->IsPal)
+                    {
+                        Character->CharacterParameterComponent->GetNickname(&name);
                     }
                 }
                 ImGui::Text(name.ToString().c_str());
@@ -559,7 +685,7 @@ namespace DX11_Base
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(g_Menu->dbg_RAINBOW));
             ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(g_Menu->dbg_RAINBOW));
         }
-        if (!ImGui::Begin("PalWorld", &g_GameVariables->m_ShowMenu, 96))
+        if (!ImGui::Begin("NuLLxD", &g_GameVariables->m_ShowMenu, 96))
         {
             ImGui::End();
             return;
@@ -575,7 +701,7 @@ namespace DX11_Base
         //  Display Menu Content
         //Tabs::TABMain();
 
-        ImGui::Text("Testing some case...");
+        //ImGui::Text("Menu v1.6");
 
         if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
         {
@@ -584,28 +710,38 @@ namespace DX11_Base
                 Tabs::TABPlayer();
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("EXPLOIT"))
+            if (ImGui::BeginTabItem("Exploit"))
             {
                 Tabs::TABExploit();
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("Database"))
-            {
-                Tabs::TABDatabase();
-                ImGui::EndTabItem();
-            }
+            //if (ImGui::BeginTabItem("Database"))
+            //{
+            //    Tabs::TABDatabase();
+            //    ImGui::EndTabItem();
+            //}
             if (ImGui::BeginTabItem("Item Spawner"))
             {
                 Tabs::TABItemSpawner();
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("CONFIG"))
+            if (ImGui::BeginTabItem("Teleporter"))
+            {
+                Tabs::TABTeleporter();
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Misc"))
+            {
+                Tabs::TABMisc();
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Info"))
             {
                 Tabs::TABConfig();
                 ImGui::EndTabItem();
             }
 #if DEBUG
-            if (ImGui::BeginTabItem("DEBUG"))
+            if (ImGui::BeginTabItem("Debug"))
             {
                 Tabs::TABDebug();
                 ImGui::EndTabItem();
@@ -616,11 +752,7 @@ namespace DX11_Base
                 Tabs::TABQuick();
                 ImGui::EndTabItem();
             }
-            if (Config.bisTeleporter && ImGui::BeginTabItem("Teleporter"))
-            {
-                Tabs::TABTeleporter();
-                ImGui::EndTabItem();
-            }
+
             ImGui::EndTabBar();
         }
         ImGui::End();
@@ -628,33 +760,33 @@ namespace DX11_Base
 
 
         if (Config.bisOpenManager)
-            ManagerMenu();
+            EntityList();
 	}
 
 	void Menu::HUD(bool* p_open)
 	{
         
-        ImGui::SetNextWindowPos(g_D3D11Window->pViewport->WorkPos);
-        ImGui::SetNextWindowSize(g_D3D11Window->pViewport->WorkSize);
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, NULL);
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.00f, 0.00f, 0.00f, 0.00f));
-        if (!ImGui::Begin("##HUDWINDOW", (bool*)true, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs))
-        {
-            ImGui::PopStyleColor();
-            ImGui::PopStyleVar();
-            ImGui::End();
-            return;
-        }
-        ImGui::PopStyleColor();
-        ImGui::PopStyleVar();
+        //ImGui::SetNextWindowPos(g_D3D11Window->pViewport->WorkPos);
+        //ImGui::SetNextWindowSize(g_D3D11Window->pViewport->WorkSize);
+        //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, NULL);
+        //ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.00f, 0.00f, 0.00f, 0.00f));
+        //if (!ImGui::Begin("##HUDWINDOW", (bool*)true, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs))
+        //{
+        //    ImGui::PopStyleColor();
+        //    ImGui::PopStyleVar();
+        //    ImGui::End();
+        //    return;
+        //}
+        //ImGui::PopStyleColor();
+        //ImGui::PopStyleVar();
 
-        auto ImDraw = ImGui::GetWindowDrawList();
-        auto draw_size = g_D3D11Window->pViewport->WorkSize;
-        auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
-        auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
+        //auto ImDraw = ImGui::GetWindowDrawList();
+        //auto draw_size = g_D3D11Window->pViewport->WorkSize;
+        //auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
+        //auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
         
-        //  Watermark
-        ImDraw->AddText(top_center, g_Menu->dbg_RAINBOW, "PalWorld-NetCrack");
+        // // Watermark
+        //ImDraw->AddText(top_center, g_Menu->dbg_RAINBOW, "PalWorld-NetCrack");
 
         if (Config.IsESP)
             ESP();
@@ -690,6 +822,16 @@ namespace DX11_Base
         //  
         if (Config.IsInfStamina)
             ResetStamina();
+
+        //
+        if (Config.IsInfinAmmo)
+        {
+            SetInfiniteAmmo(true);
+        }
+        else
+        {
+            SetInfiniteAmmo(false);
+        }
 
         //  
         //  SetDemiGodMode(Config.IsMuteki);
