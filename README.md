@@ -1,6 +1,7 @@
 # PalWorld Internal
 Simple internal built with various code snippets and SDK from UC.me
 - Note: The master branch does not include visuals
+- Note: You must build SDK before you can compile
 
 # Player Features
 - Modify Speed
