@@ -33,19 +33,20 @@ Simple internal built with various code snippets and SDK from UC.me
 - 'Mask It' can be used on your player entity to hide player name.
 
 # Misc
-- Kill Aura
+- Kill Aura 
 - Crash server
+- Destroy All Bases
+- Unlock All Effigies
 
 # SS
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/86211664-bcf6-43f4-9fdb-ac6d552d67f9)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/d627d03c-d45e-411e-8704-216d7b1192c9)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/33ab0b88-a723-4998-ae5f-e89d0384ceb3)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/dc0c943a-cced-43cd-8738-3cdb2050a69c)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/3ab76406-cc9e-40a4-9975-271cb9325227)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/655b5ae9-e024-4671-bda0-078ca1729050)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/e36d7663-32fb-4efe-8262-2f268ddb98bc)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/ebb028ab-c82e-42fc-ac26-24e71ddc4ad8)
-
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/dde73075-2c86-490a-b18c-f000d222511e)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/776fc059-900d-4708-b26a-7be6e824eed7)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/0418b4af-2452-4cd4-a3a0-888af9afaa0b)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8ac29708-22a6-4700-9635-04d1db483888)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/05d172fc-2a74-45a4-85c2-002e0bb51266)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/51eef1f7-65af-4ef6-ba07-c428f9439720)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/acb71940-653e-4416-b7f9-7dbdc8f040f7)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8873508a-ba82-4a3b-ad25-d0aec1995f87)
 
 # AOBS
 > GObjects: `48 8B 05 ? ? ? ? 48 8B 0C C8 4C 8D 04 D1 EB 03`  
