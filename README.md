@@ -44,8 +44,6 @@ Simple internal built with various code snippets and SDK from UC.me
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/0418b4af-2452-4cd4-a3a0-888af9afaa0b)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8ac29708-22a6-4700-9635-04d1db483888)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/05d172fc-2a74-45a4-85c2-002e0bb51266)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/51eef1f7-65af-4ef6-ba07-c428f9439720)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/acb71940-653e-4416-b7f9-7dbdc8f040f7)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8873508a-ba82-4a3b-ad25-d0aec1995f87)
 
 # AOBS
