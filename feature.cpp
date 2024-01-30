@@ -485,6 +485,45 @@ void RemoveAncientTechPoint(__int32 mPoints)
 	pTechData->bossTechnologyPoint -= mPoints;
 }
 
+//
+void DismantleObjects()
+{
+	SDK::TArray<SDK::AActor*> Actors = Config.GetUWorld()->PersistentLevel->Actors;
+
+	for (int i = 0; i < Actors.Count(); i++)
+	{
+		SDK::AActor* Actor = Actors[i];
+
+		if (Actor == nullptr) continue;
+
+		if (Actor->IsA(SDK::APalMapObject::StaticClass()))
+		{
+			SDK::APalMapObject* Object = static_cast<SDK::APalMapObject*>(Actor);
+
+			Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->MapObject->RequestDismantleObject_ToServer(Object->ModelInstanceId);
+		}
+		else if (Actor->IsA(SDK::APalGuildInfo::StaticClass()))
+		{
+			SDK::APalGuildInfo* GInfo = static_cast<SDK::APalGuildInfo*>(Actor);
+
+			auto& baseCamps = GInfo->Guild->MapObjectInstanceIds_BaseCampPoint;
+			auto& baseCampIds = GInfo->Guild->BaseCampIds;
+
+			for (int j = 0; j < baseCamps.Count(); j++)
+			{
+				GInfo->Guild->RequestDismantleBaseCamp(baseCamps[j]);
+				Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->MapObject->RequestDismantleObject_ToServer(baseCamps[j]);
+			}
+
+			for (int j = 0; j < baseCampIds.Count(); j++)
+			{
+				GInfo->Guild->RequestDismantleBaseCamp(baseCampIds[j]);
+				Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->MapObject->RequestDismantleObject_ToServer(baseCampIds[j]);
+			}
+		}
+	}
+}
+
 float GetDistanceToActor(AActor* pLocal, AActor* pTarget)
 {
 	if (!pLocal || !pTarget)

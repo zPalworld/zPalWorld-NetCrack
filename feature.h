@@ -51,4 +51,6 @@ void RemoveTechPoints(__int32 mPoints);
 
 void RemoveAncientTechPoint(__int32 mPoints);
 
+void DismantleObjects();
+
 float GetDistanceToActor(SDK::AActor* pLocal, SDK::AActor* pTarget);

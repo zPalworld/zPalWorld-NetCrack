@@ -130,18 +130,9 @@ namespace DX11_Base
 
             ImGui::Checkbox("Toggle Def Up", &Config.IsDefuseModiler);
 
-            ImGui::Checkbox("Inf Stamina", &Config.IsInfStamina);
+            ImGui::Checkbox("Infinite Stamina", &Config.IsInfStamina);
 
             ImGui::Checkbox("Infinite Ammo", &Config.IsInfinAmmo);
-            //{
-            //    if (Config.GetPalPlayerCharacter()->ShooterComponent != NULL && Config.GetPalPlayerCharacter()->ShooterComponent->CanShoot())
-            //    {
-            //        if (Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon() != NULL)
-            //        {
-            //            Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet = !Config.GetPalPlayerCharacter()->ShooterComponent->GetHasWeapon()->IsRequiredBullet;
-            //        }
-            //    }
-            //}
 
             if (ImGui::Checkbox("Toggle FullBright", &Config.IsFullbright))
                 SetFullbright(Config.IsFullbright);
@@ -189,37 +180,12 @@ namespace DX11_Base
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
             ImGui::Checkbox("Show Quick Tab", &Config.IsQuick);
             ImGui::Checkbox("Open Entity List", &Config.bisOpenManager);
-            //creadit 
-            //ImGui::Checkbox("PalIsMonster", &Config.IsMonster);
             ImGui::InputInt("EXP:", &Config.EXP);
-            ImGui::InputText("Item Name", Config.ItemName,sizeof(Config.ItemName));
-            ImGui::InputInt("Item Num", &Config.Item);
-            if (ImGui::Button("Give item", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-            {
-                SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
-                SDK::APalPlayerState* p_apps = Config.GetPalPlayerState();
-                if (p_appc && p_apps)
-                {
-                    SDK::UPalPlayerInventoryData* InventoryData = Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->GetInventoryData();
-                    if (InventoryData && (Config.ItemName != NULL))
-                    {
-                        g_Console->printdbg("\n\n[+] ItemName: %s [+]\n\n", Console::Colors::green, Config.ItemName);
-                        AddItemToInventoryByName(InventoryData, Config.ItemName, Config.Item);
-                    }
-                }
-            }
-
             ImGui::InputInt("Slot to modify (start 0):", &Config.AddItemSlot);
             ImGui::InputInt("Multiple of how much:", &Config.AddItemCount);
             
-            if (ImGui::Button("Give items from slot", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Dupe Items In Slot", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 IncrementInventoryItemCountByIndex(Config.AddItemCount, Config.AddItemSlot);
-            
-            // this does not work lol
-            // std::stringstream AddItemsString;
-            // AddItemsString << "Give " << Config.AddItemCount << " items from slot" << Config.AddItemSlot;
-            if (ImGui::Button("Unlock All Effigies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-                UnlockAllEffigies();
 
             if (ImGui::Button("ToggleFly", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
@@ -254,7 +220,7 @@ namespace DX11_Base
         {
             
             ImGui::Text("NuLL");
-            ImGui::Text("Version v1.6");
+            ImGui::Text("Version v1.7");
             ImGui::Text("Credits to: bluesword007");
             ImGui::Text("Credits to: UnknownCheats.me");
 
@@ -311,10 +277,11 @@ namespace DX11_Base
                                     if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
                                     {
                                         SDK::APalCharacter* monster = (SDK::APalCharacter*)T[i];
-                                        if (monster->IsLocallyControlled())
+                                        if (monster->IsLocallyControlled() || monster->GetCharacterParameterComponent()->IsOtomo()) // credit emoisback
                                         {
                                             continue;
                                         }
+                                        Config.GetPalPlayerState()->SendDeath_ToServer(monster);
                                         Damage(monster, 9999999999999);
 
                                     }
@@ -334,6 +301,12 @@ namespace DX11_Base
                     }
                 }
             }
+
+            if (ImGui::Button("Destroy All Visible Objects", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+                DismantleObjects();
+
+            if (ImGui::Button("Unlock All Effigies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+                UnlockAllEffigies();
         }
 
         void TABTeleporter()
@@ -349,7 +322,7 @@ namespace DX11_Base
                 SDK::FVector vector = { Config.Pos[0],Config.Pos[1],Config.Pos[2] };
                 AnyWhereTP(vector, Config.IsSafe);
             }
-
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 500), true);
             for (const auto& pair : database::locationMap) 
             {
                 const std::string& locationName = pair.first;
@@ -359,6 +332,7 @@ namespace DX11_Base
                     AnyWhereTP(location, Config.IsSafe);
                 }
             }
+            ImGui::EndChild();
         }
 
         void TABItemSpawner()
@@ -422,7 +396,7 @@ namespace DX11_Base
             static char item_search[100];
 
             ImGui::InputText("Search", item_search, IM_ARRAYSIZE(item_search));
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 800), true);
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 500), true);
             for (const auto& item : list) {
                 std::istringstream ss(item);
                 std::string left_text, right_text;
@@ -439,7 +413,7 @@ namespace DX11_Base
                 if (item_search[0] != '\0' && (right_to_lower.find(item_search_to_lower) == std::string::npos))
                     continue;
 
-                if (cur_size != 0 && cur_size < 20)
+                if (cur_size != 0 && cur_size < 10)
                 {
                     ImGui::SameLine();
                 }
@@ -558,6 +532,10 @@ namespace DX11_Base
 
                 SDK::APalCharacter* Character = (SDK::APalCharacter*)T[i];
                 SDK::FString name;
+                if (Character->IsLocallyControlled() || Character->GetCharacterParameterComponent()->IsOtomo())
+                {
+                    continue;
+                }
                 if (Config.filterPlayer)
                 {
                     if (!T[i]->IsA(SDK::APalPlayerCharacter::StaticClass()))
@@ -616,6 +594,12 @@ namespace DX11_Base
                         Damage(Character, 99999999999);
                 }
                 ImGui::SameLine();
+                if (ImGui::Button("Set 1 HP"))
+                {
+                    if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
+                        Damage(Character, (Character->CharacterParameterComponent->GetHP().Value - 1) / 1000);
+                }
+                ImGui::SameLine();
                 if (ImGui::Button("TP"))
                 {
                     if (Config.GetPalPlayerCharacter() != NULL)
@@ -627,7 +611,6 @@ namespace DX11_Base
                         }
                     }
                 }
-
                 /*if (Character->IsA(SDK::APalPlayerCharacter::StaticClass()))
                 {
                     ImGui::SameLine();
@@ -696,11 +679,6 @@ namespace DX11_Base
         }
         
         ImGuiContext* pImGui = GImGui;
-
-        //  Display Menu Content
-        //Tabs::TABMain();
-
-        //ImGui::Text("Menu v1.6");
 
         if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
         {

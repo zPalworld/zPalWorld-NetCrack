@@ -492,6 +492,7 @@ namespace itemlist
         "Pickaxe_Tier_01|Metal Pickaxe",
         "Glider_Good|Mega Glider",
         "Shield_02|Mega Shield",
+        "PV_Glider_Manta|Manta Glider",
         "MeatCutterKnife|Meat Cleaver",
         "Glider_Old|Normal Parachute",
         "Axe_Tier_02|Refined Metal Ax",
