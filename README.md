@@ -22,6 +22,7 @@ Simple internal built with various code snippets and SDK from UC.me
 - Max Weight (Only works in SP)
 - Set Catch Rate (Only works in SP)
 - Item Spawner
+- Easy Pal Condensation - Requires only 1 Pal for all upgrade levels
 
 # Teleporter
 - All Boss Locations
