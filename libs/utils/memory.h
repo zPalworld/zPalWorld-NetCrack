@@ -59,6 +59,7 @@ public:
 
 	static void free(void* data);
 	static void free(const void* data);
+	static void WriteToMemory(uintptr_t addressToWrite, void* valueToWrite, int byteNum);
 
 	static bool is_set(const void* mem, char chr, size_t length);
 

@@ -181,6 +181,9 @@ namespace DX11_Base
             ImGui::Checkbox("Show Quick Tab", &Config.IsQuick);
             ImGui::Checkbox("Open Entity List", &Config.bisOpenManager);
             ImGui::InputInt("EXP:", &Config.EXP);
+            //Creadit WoodgamerHD
+            if (ImGui::Button("Give EXP", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+                GiveExperiencePoints(Config.EXP);
             ImGui::InputInt("Slot to modify (start 0):", &Config.AddItemSlot);
             ImGui::InputInt("Multiple of how much:", &Config.AddItemCount);
             
@@ -211,9 +214,17 @@ namespace DX11_Base
             if (ImGui::Button("GodHealth", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 ReviveLocalPlayer();
 
-            //Creadit WoodgamerHD
-            if (ImGui::Button("Give exp", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-                GiveExperiencePoints(Config.EXP);
+            //Credit emoisback & Zanzer
+            if (ImGui::Button("Easy Pal Condensation", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                auto easycondense = signature("E8 ?? ?? ?? ?? 89 ?? ?? ?? 00 00 E9 ?? ?? ?? ?? 33").GetPointer();
+
+                BYTE patch[] = {
+                    0x31, 0xC0, 0xFF, 0xC0, 0x90
+                };
+
+                memory::WriteToMemory(easycondense, patch, 5);
+            }
         }
         
         void TABConfig()
