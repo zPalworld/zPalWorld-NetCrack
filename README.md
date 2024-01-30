@@ -39,7 +39,7 @@ Simple internal built with various code snippets and SDK from UC.me
 - Unlock All Effigies
 
 # SS
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/dde73075-2c86-490a-b18c-f000d222511e)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/6529f412-a70c-4861-8ea6-f66ac51ce440)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/776fc059-900d-4708-b26a-7be6e824eed7)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/0418b4af-2452-4cd4-a3a0-888af9afaa0b)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8ac29708-22a6-4700-9635-04d1db483888)
