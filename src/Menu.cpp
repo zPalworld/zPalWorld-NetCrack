@@ -734,8 +734,6 @@ namespace DX11_Base
         }
         ImGui::End();
 
-
-
         if (Config.bisOpenManager)
             EntityList();
 	}
@@ -771,7 +769,7 @@ namespace DX11_Base
         if (Config.isDebugESP)
             ESP_DEBUG(Config.mDebugESPDistance);
 
-        ImGui::End();
+        //ImGui::End();
 	}
 
     void Menu::Loops()
