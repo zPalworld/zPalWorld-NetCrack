@@ -413,15 +413,6 @@ namespace DX11_Base
                 if (item_search[0] != '\0' && (right_to_lower.find(item_search_to_lower) == std::string::npos))
                     continue;
 
-                if (cur_size != 0 && cur_size < 10)
-                {
-                    ImGui::SameLine();
-                }
-                else if (cur_size != 0)
-                {
-                    cur_size = 0;
-                }
-
                 cur_size += right_text.length();
 
                 ImGui::PushID(item);
