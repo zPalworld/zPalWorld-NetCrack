@@ -38,6 +38,9 @@ Simple internal built with various code snippets and SDK from UC.me
 - Crash server
 - Destroy All Bases
 - Unlock All Effigies
+- Teleport Pals to XHair/vacuum
+- Unlock All Chests
+- Destroy All Visible Objects
 
 # SS
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/e34db15b-dd00-4db6-88b3-f9a9604791b4)
