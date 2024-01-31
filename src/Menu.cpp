@@ -3,6 +3,7 @@
 #include "SDK.hpp"
 #include "config.h"
 #include <algorithm>
+#include <array>
 std::string rand_str(const int len)
 {
     std::string str;
@@ -38,12 +39,14 @@ int InputTextCallback(ImGuiInputTextCallbackData* data) {
     return 0;
 }
 
-namespace DX11_Base 
+namespace DX11_Base
 {
     // helper variables
     char inputBuffer_getFnAddr[100];
+    char inputBuffer_getClass[100];
+    char inputBuffer_setWaypoint[32];
 
-    namespace Styles 
+    namespace Styles
     {
         void InitStyle()
         {
@@ -65,7 +68,7 @@ namespace DX11_Base
             style.GrabRounding = 3.0f;
             ImGui::StyleColorsClassic();
 
-            if (g_Menu->dbg_RAINBOW_THEME) 
+            if (g_Menu->dbg_RAINBOW_THEME)
             {
                 //  RGB MODE STLYE PROPERTIES
                 colors[ImGuiCol_Separator] = ImVec4(g_Menu->dbg_RAINBOW);
@@ -73,7 +76,7 @@ namespace DX11_Base
                 colors[ImGuiCol_TitleBgActive] = ImVec4(0, 0, 0, 1.0f);
                 colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0, 0, 0, 1.0f);
             }
-            else 
+            else
             {
                 /// YOUR DEFAULT STYLE PROPERTIES HERE
                 colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
@@ -118,17 +121,19 @@ namespace DX11_Base
     }
 
 
-    namespace Tabs 
+    namespace Tabs
     {
         void TABPlayer()
         {
-            
+
             //�л�����һ��
             ImGui::Checkbox("Toggle Speed", &Config.IsSpeedHack);
 
             ImGui::Checkbox("Toggle Atk Up", &Config.IsAttackModiler);
 
             ImGui::Checkbox("Toggle Def Up", &Config.IsDefuseModiler);
+
+            ImGui::Checkbox("Infinite Health", &Config.IsGodMode);
 
             ImGui::Checkbox("Infinite Stamina", &Config.IsInfStamina);
 
@@ -174,7 +179,7 @@ namespace DX11_Base
                 }
             }
         }
-        
+
         void TABExploit()
         {
             //Config.GetPalPlayerCharacter()->GetPalPlayerController()->GetPalPlayerState()->RequestSpawnMonsterForPlayer(name, 5, 1);
@@ -186,7 +191,7 @@ namespace DX11_Base
                 GiveExperiencePoints(Config.EXP);
             ImGui::InputInt("Slot to modify (start 0):", &Config.AddItemSlot);
             ImGui::InputInt("Multiple of how much:", &Config.AddItemCount);
-            
+
             if (ImGui::Button("Dupe Items In Slot", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 IncrementInventoryItemCountByIndex(Config.AddItemCount, Config.AddItemSlot);
 
@@ -211,7 +216,7 @@ namespace DX11_Base
                 }
             }*/
 
-            if (ImGui::Button("GodHealth", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            if (ImGui::Button("Revive", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 ReviveLocalPlayer();
 
             //Credit emoisback & Zanzer
@@ -226,10 +231,10 @@ namespace DX11_Base
                 memory::WriteToMemory(easycondense, patch, 5);
             }
         }
-        
+
         void TABConfig()
         {
-            
+
             ImGui::Text("NuLL");
             ImGui::Text("Version v1.7");
             ImGui::Text("Credits to: bluesword007");
@@ -246,7 +251,7 @@ namespace DX11_Base
                 g_KillSwitch = TRUE;
             }
         }
-        
+
         //void TABDatabase()
         //{
         //    //ImGui::Checkbox("IsItems", &Config.matchDbItems);
@@ -267,7 +272,7 @@ namespace DX11_Base
         //        }
         //    }
         //}
-        
+
         void TABMisc()
         {
             if (ImGui::Button("KillAura", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
@@ -318,15 +323,33 @@ namespace DX11_Base
 
             if (ImGui::Button("Unlock All Effigies", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 UnlockAllEffigies();
+
+            if (ImGui::Button("Unlock Chests", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20))) //Credit emoisback
+            {
+                UnlockChest();
+            }
+
+            if (ImGui::Button("Teleport Pals to XHair", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
+            {
+                Config.IsTeleportAllToXhair = !Config.IsTeleportAllToXhair;
+            }
+
+            if (Config.IsTeleportAllToXhair)
+            {
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+                ImGui::SliderFloat("##ENT_CAP_DISTANCE", &Config.mDebugEntCapDistance, 1.0f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+            }
         }
 
         void TABTeleporter()
         {
             ImGui::Checkbox("SafeTeleport", &Config.IsSafe);
+            ImGui::SameLine();
+            ImGui::Checkbox("Custom Waypoints", &Config.bisOpenWaypoints);
             if (ImGui::Button("Home", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
                 RespawnLocalPlayer(Config.IsSafe);
 
-            ImGui::InputFloat3("Pos",Config.Pos);
+            ImGui::InputFloat3("Pos", Config.Pos);
             ImGui::SameLine();
             if (ImGui::Button("TP", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
             {
@@ -334,10 +357,10 @@ namespace DX11_Base
                 AnyWhereTP(vector, Config.IsSafe);
             }
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, 500), true);
-            for (const auto& pair : database::locationMap) 
+            for (const auto& pair : database::locationMap)
             {
                 const std::string& locationName = pair.first;
-                if (ImGui::Button(locationName.c_str())) 
+                if (ImGui::Button(locationName.c_str()))
                 {
                     SDK::FVector location = SDK::FVector(pair.second[0], pair.second[1], pair.second[2]);
                     AnyWhereTP(location, Config.IsSafe);
@@ -353,53 +376,56 @@ namespace DX11_Base
 
             ImGui::InputInt("Num To Add", &num_to_add);
 
-            ImGui::Combo("Item Category", &category, "Accessories\0Ammo\0Armor\0Crafting Materials\0Eggs\0Food\0Hats\0\Medicine\0Money\0Other\0Pal Spheres\0Seeds\0Tools\0Weapons\0");
+            ImGui::Combo("Item Category", &category, "Accessories\0Ammo\0Armor\0Crafting Materials\0Eggs\0Food\0Hats\0Medicine\0Money\0Other\0Pal Sphere\0Saddles\0Seeds\0Tools\0Weapons\0");
 
             std::initializer_list list = itemlist::accessories;
 
             switch (category)
             {
-                case 1:
-                    list = itemlist::ammo;
-                    break;
-                case 2:
-                    list = itemlist::armor;
-                    break;
-                case 3:
-                    list = itemlist::craftingmaterials;
-                    break;
-                case 4:
-                    list = itemlist::eggs;
-                    break;
-                case 5:
-                    list = itemlist::food;
-                    break;
-                case 6:
-                    list = itemlist::hats;
-                    break;
-                case 7:
-                    list = itemlist::medicine;
-                    break;
-                case 8:
-                    list = itemlist::money;
-                    break;
-                case 9:
-                    list = itemlist::other;
-                    break;
-                case 10:
-                    list = itemlist::palspheres;
-                    break;
-                case 11:
-                    list = itemlist::seeds;
-                    break;
-                case 12:
-                    list = itemlist::tools;
-                    break;
-                case 13:
-                    list = itemlist::weapons;
-                    break;
-                default:
-                    list = itemlist::accessories;
+            case 1:
+                list = itemlist::ammo;
+                break;
+            case 2:
+                list = itemlist::armor;
+                break;
+            case 3:
+                list = itemlist::craftingmaterials;
+                break;
+            case 4:
+                list = itemlist::eggs;
+                break;
+            case 5:
+                list = itemlist::food;
+                break;
+            case 6:
+                list = itemlist::hats;
+                break;
+            case 7:
+                list = itemlist::medicine;
+                break;
+            case 8:
+                list = itemlist::money;
+                break;
+            case 9:
+                list = itemlist::other;
+                break;
+            case 10:
+                list = itemlist::palspheres;
+                break;
+            case 11:
+                list = itemlist::palskill;
+                break;
+            case 12:
+                list = itemlist::seeds;
+                break;
+            case 13:
+                list = itemlist::tools;
+                break;
+            case 14:
+                list = itemlist::weapons;
+                break;
+            default:
+                list = itemlist::accessories;
             }
 
             int cur_size = 0;
@@ -452,9 +478,9 @@ namespace DX11_Base
                 SpawnMultiple_ItemsToInventory(config::QuickItemSet::spheres);
 
             if (ImGui::Button("Tools", ImVec2(ImGui::GetContentRegionAvail().x - 3, 20)))
-                    SpawnMultiple_ItemsToInventory(config::QuickItemSet::tools);
+                SpawnMultiple_ItemsToInventory(config::QuickItemSet::tools);
         }
-        
+
         void TABDebug()
         {
             ImGui::Checkbox("Debug ESP", &Config.isDebugESP);
@@ -471,7 +497,7 @@ namespace DX11_Base
                 SDK::APalPlayerCharacter* p_appc = Config.GetPalPlayerCharacter();
                 if (p_appc)
                     g_Console->printdbg("\n\n[+] APalPlayerCharacter: 0x%llX\n", Console::Colors::green, p_appc);
-                
+
             }
 
             ImGui::InputTextWithHint("##INPUT", "INPUT GOBJECT fn NAME", inputBuffer_getFnAddr, 100);
@@ -493,9 +519,8 @@ namespace DX11_Base
             }
 
         }
-	}
-
-
+    }
+    
 	void Menu::Draw()
 	{
 
@@ -613,6 +638,12 @@ namespace DX11_Base
                         }
                     }
                 }
+                ImGui::SameLine();
+                if (ImGui::Button("Join Guild"))
+                {
+                    if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
+                        ForceJoinGuild(Character);
+                }
                 /*if (Character->IsA(SDK::APalPlayerCharacter::StaticClass()))
                 {
                     ImGui::SameLine();
@@ -657,6 +688,59 @@ namespace DX11_Base
         }
         
         ImGui::End();
+    }
+
+    void Menu::Waypoints()
+    {
+        float windowWidth = 300.0f;
+        float windowHeight = 150.0f;
+
+        if (!ImGui::Begin("Waypoints", &g_GameVariables->m_ShowMenu, ImGuiWindowFlags_NoResize))
+        {
+            ImGui::End();
+            return;
+        }
+
+        ImGui::InputTextWithHint("##INPUT_SETWAYPOINT", "Set Name", inputBuffer_setWaypoint, 32);
+        ImGui::SameLine();
+        if (ImGui::Button("Add", ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+        {
+            std::string wpName = inputBuffer_setWaypoint;
+            if (wpName.size() > 0)
+            {
+                AddWaypointLocation(wpName);
+                memset(inputBuffer_setWaypoint, 0, 32);
+            }
+        }
+        ImVec2 contentSize;
+        if (Config.db_waypoints.size() > 0)
+        {
+            if (ImGui::BeginChild("##CHILD_WAYPOINTS", { 0.0f, 100.f }))
+            {
+                DWORD index = -1;
+                for (auto waypoint : Config.db_waypoints)
+                {
+                    index++;
+                    ImGui::PushID(index);
+                    //  ImGui::Checkbox("SHOW", &waypoint.bIsShown);
+                    //  ImGui::SameLine();
+                    if (ImGui::Button(waypoint.waypointName.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+                        AnyWhereTP(waypoint.waypointLocation, false);
+                    ImGui::PopID();
+                }
+
+                contentSize = ImGui::GetWindowSize();
+
+                ImGui::EndChild();
+            }
+        }
+
+        windowWidth = (((windowWidth) > (contentSize.x)) ? (windowWidth) : (contentSize.x));
+        windowHeight = (((windowHeight) > (contentSize.y)) ? (windowHeight) : (contentSize.y));
+        ImGui::SetWindowSize(ImVec2(windowWidth, windowHeight));
+
+        ImGui::End();
+
     }
 	
     void Menu::MainMenu()
@@ -736,6 +820,9 @@ namespace DX11_Base
         }
         ImGui::End();
 
+        if (Config.bisOpenWaypoints)
+            Waypoints();
+
         if (Config.bisOpenManager)
             EntityList();
 	}
@@ -790,7 +877,7 @@ namespace DX11_Base
         
         //  
         if (Config.IsAttackModiler)
-            SetPlayerDefenseParam(Config.DamageUp);
+            SetPlayerAttackParam(Config.DamageUp);
 
         //  
         if (Config.IsDefuseModiler)
@@ -801,6 +888,10 @@ namespace DX11_Base
             ResetStamina();
 
         //
+        if (Config.IsGodMode)
+            SetPlayerHealth(INT_MAX);
+
+        //
         if (Config.IsInfinAmmo)
         {
             SetInfiniteAmmo(true);
@@ -809,6 +900,10 @@ namespace DX11_Base
         {
             SetInfiniteAmmo(false);
         }
+
+       //
+        if (Config.IsTeleportAllToXhair)
+            TeleportAllPalsToCrosshair(Config.mDebugEntCapDistance);
 
         //  
         //  SetDemiGodMode(Config.IsMuteki);

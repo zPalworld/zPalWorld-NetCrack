@@ -53,4 +53,20 @@ void RemoveAncientTechPoint(__int32 mPoints);
 
 void DismantleObjects();
 
+void ForceJoinGuild(SDK::APalCharacter* targetPlayer);
+
+void ForgeActor(SDK::AActor* pTarget, float mDistance, float mHeight = 0.0f, float mAngle = 0.0f);
+
+void TeleportAllPalsToCrosshair(float mDistance);
+
+void UnlockChest();
+
+void AddWaypointLocation(std::string wpName);
+
+void DeleteWaypoint(DWORD index);
+
+void RenderWaypointsToScreen();
+
+void SetPlayerHealth(__int32 newHealth);
+
 float GetDistanceToActor(SDK::AActor* pLocal, SDK::AActor* pTarget);

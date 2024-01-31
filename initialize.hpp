@@ -7,6 +7,17 @@
 #include "include/Hooking.hpp"
 using namespace DX11_Base;
 
+void ClientBGThread()
+{
+    while (g_Running)
+    {
+        //  test cache runners
+
+        std::this_thread::sleep_for(1ms);
+        std::this_thread::yield();
+    }
+}
+
 DWORD WINAPI MainThread_Initialize()
 {
     g_Console = std::make_unique<Console>();
@@ -30,6 +41,7 @@ DWORD WINAPI MainThread_Initialize()
 
     ///  RENDER LOOP
     g_Running = TRUE;
+    std::thread WCMUpdate(ClientBGThread); // Initialize Loops Thread
     while (g_Running)
     {
         if (GetAsyncKeyState(VK_INSERT) & 1)
@@ -40,7 +52,14 @@ DWORD WINAPI MainThread_Initialize()
         }
     }
 
+    if (g_KillSwitch)
+    {
+        g_KillSwitch = false;
+        g_Hooking->Unhook();
+    }
+
     ///  EXIT
+    WCMUpdate.join(); // Exit Loops Thread
     FreeLibraryAndExitThread(g_hModule, EXIT_SUCCESS);
     return EXIT_SUCCESS;
 }

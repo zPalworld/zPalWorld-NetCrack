@@ -317,10 +317,16 @@ void ReviveLocalPlayer()
 	if (!pPalPlayerCharacter)
 		return;
 
-	FFixedPoint newHealthPoint = FFixedPoint(99999999);
-	if (Config.GetPalPlayerCharacter()->CharacterParameterComponent->IsDying())
-		Config.GetPalPlayerCharacter()->CharacterParameterComponent->ReviveFromDying();
-	pPalPlayerCharacter->ReviveCharacter_ToServer(newHealthPoint);
+	UPalCharacterParameterComponent* pParams = pPalPlayerCharacter->CharacterParameterComponent;
+	if (!pParams)
+		return;
+
+	if (pParams->IsDying())
+		pParams->ReviveFromDying();
+
+	FFixedPoint64 maxHP = pParams->GetMaxHP();
+	FFixedPoint newHealth = FFixedPoint(maxHP.Value);
+	pPalPlayerCharacter->ReviveCharacter_ToServer(newHealth);
 }
 
 //	
@@ -521,6 +527,155 @@ void DismantleObjects()
 				Config.GetPalPlayerCharacter()->GetPalPlayerController()->Transmitter->MapObject->RequestDismantleObject_ToServer(baseCampIds[j]);
 			}
 		}
+	}
+}
+
+void SetPlayerHealth(__int32 newHealth)
+{
+	APalPlayerCharacter* pPalPlayerCharacter = Config.GetPalPlayerCharacter();
+	if (!pPalPlayerCharacter)
+		return;
+
+	UPalCharacterParameterComponent* pParams = pPalPlayerCharacter->CharacterParameterComponent;
+	if (!pParams)
+		return;
+
+	FFixedPoint64 maxHP = pParams->GetMaxHP();
+	if (newHealth > maxHP.Value)
+		newHealth = maxHP.Value;
+
+	FFixedPoint newHealthPoint = FFixedPoint(newHealth);
+	pPalPlayerCharacter->ReviveCharacter_ToServer(newHealthPoint);
+}
+
+void ForceJoinGuild(SDK::APalCharacter* targetPlayer)
+{
+	if (!targetPlayer->CharacterParameterComponent->IndividualHandle)
+		return;
+
+	if (!Config.GetPalPlayerController())
+		return;
+
+	UPalNetworkGroupComponent* group = Config.GetPalPlayerController()->Transmitter->Group;
+	if (!group)
+		return;
+
+	SDK::FGuid myPlayerId = Config.GetPalPlayerController()->GetPlayerUId();
+	SDK::FGuid playerId = targetPlayer->CharacterParameterComponent->IndividualHandle->ID.PlayerUId;
+
+	group->RequestJoinGuildForPlayer_ToServer(myPlayerId, playerId);       // One of these does the trick
+	group->RequestJoinGuildRequestForPlayer_ToServer(myPlayerId, playerId);
+}
+
+void ForgeActor(SDK::AActor* pTarget, float mDistance, float mHeight, float mAngle) // credit: xCENTx
+{
+	APalPlayerCharacter* pPalPlayerCharacter = Config.GetPalPlayerCharacter();
+	APlayerController* pPlayerController = Config.GetPalPlayerController();
+	if (!pTarget || !pPalPlayerCharacter || !pPlayerController)
+		return;
+
+	APlayerCameraManager* pCamera = pPlayerController->PlayerCameraManager;
+	if (!pCamera)
+		return;
+
+	FVector playerLocation = pPalPlayerCharacter->K2_GetActorLocation();
+	FVector camFwdDir = pCamera->GetActorForwardVector() * (mDistance * 100.f);
+	FVector targetLocation = playerLocation + camFwdDir;
+
+	if (mHeight != 0.0f)
+		targetLocation.Y += mHeight;
+
+	FRotator targetRotation = pTarget->K2_GetActorRotation();
+	if (mAngle != 0.0f)
+		targetRotation.Roll += mAngle;
+
+	pTarget->K2_SetActorLocation(targetLocation, false, nullptr, true);
+	pTarget->K2_SetActorRotation(targetRotation, true);
+}
+
+void TeleportAllPalsToCrosshair(float mDistance) // credit: xCENTx
+{
+	TArray<APalCharacter*> outPals;
+	Config.GetTAllPals(&outPals);
+	DWORD palsCount = outPals.Count();
+	for (int i = 0; i < palsCount; i++)
+	{
+		APalCharacter* cPal = outPals[i];
+
+		if (!cPal || !cPal->IsA(APalMonsterCharacter::StaticClass()))
+			continue;
+
+		//	@TODO: displace with entity width for true distance, right now it is distance from origin
+		//	FVector palOrigin;
+		//	FVector palBounds;
+		//	cPal->GetActorBounds(true, &palOrigin, &palBounds, false);
+		//	float adj = palBounds.X * .5 + mDistance;
+
+		ForgeActor(cPal, mDistance);
+	}
+}
+
+void UnlockChest()
+{
+	SDK::UWorld* world = Config.GetUWorld();
+	if (!world) return;
+
+	SDK::TUObjectArray* objects = world->GObjects;
+	if (!objects) return;
+
+	for (int i = 0; i < objects->NumElements; ++i)
+	{
+		SDK::UObject* object = objects->GetByIndex(i);
+		if (object && object->IsA(SDK::UPalMapObjectPasswordLockModule::StaticClass()))
+		{
+			SDK::UPalMapObjectPasswordLockModule* locked = static_cast<SDK::UPalMapObjectPasswordLockModule*>(object);
+			if (locked) locked->LockState = SDK::EPalMapObjectPasswordLockState::Unlock;
+		}
+	}
+}
+
+// credit: xCENTx
+void AddWaypointLocation(std::string wpName)
+{
+	APalCharacter* pPalCharacater = Config.GetPalPlayerCharacter();
+	if (!pPalCharacater)
+		return;
+
+	FVector wpLocation = pPalCharacater->K2_GetActorLocation();
+	FRotator wpRotation = pPalCharacater->K2_GetActorRotation();
+	config::SWaypoint newWaypoint = config::SWaypoint(wpName, wpLocation, wpRotation);
+	Config.db_waypoints.push_back(newWaypoint);
+}
+
+void DeleteWaypoint(DWORD index)
+{
+	// Ensure index is within bounds
+	if (index >= 0 && index < Config.db_waypoints.size())
+	{
+		// Erase the waypoint from the vector
+		Config.db_waypoints.erase(Config.db_waypoints.begin() + index);
+	}
+	// Optionally, you can also update your logic to save changes if needed
+}
+
+void RenderWaypointsToScreen()
+{
+	APalCharacter* pPalCharacater = Config.GetPalPlayerCharacter();
+	APalPlayerController* pPalController = Config.GetPalPlayerController();
+	if (!pPalCharacater || !pPalController)
+		return;
+
+	ImDrawList* draw = ImGui::GetWindowDrawList();
+
+	for (auto waypoint : Config.db_waypoints)
+	{
+		FVector2D vScreen;
+		if (!pPalController->ProjectWorldLocationToScreen(waypoint.waypointLocation, &vScreen, false))
+			continue;
+
+		auto color = ImColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		draw->AddText(ImVec2(vScreen.X, vScreen.Y), color, waypoint.waypointName.c_str());
 	}
 }
 

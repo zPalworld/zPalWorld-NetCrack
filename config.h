@@ -33,6 +33,10 @@ public:
 	bool filterPal = false;
 	bool bisRandomName = false;
 	bool bisTeleporter = false;
+	bool IsTeleportAllToXhair = false;
+	bool IsForgeMode = false;
+	bool IsGodMode = false;
+	bool bisOpenWaypoints = false;
 	float SpeedModiflers = 1.0f;
 	//def and value
 	float mDebugESPDistance = 5.0f;
@@ -40,6 +44,7 @@ public:
 	int DefuseUp = 0;
 	int EXP = 0;
 	int Item = 0;
+	float mDebugEntCapDistance = 10.0f;
 	float Pos[3] = { 0,0,0 };
 	char ItemName[255];
 	char inputTextBuffer[255] = "";
@@ -80,5 +85,22 @@ public:
 	static void Init();
 	static void Update(const char* filterText);
 	static const std::vector<std::string>& GetFilteredItems();
+
+	// structure
+	struct SWaypoint
+	{
+		std::string waypointName;
+		SDK::FVector waypointLocation;
+		SDK::FRotator waypointRotation;
+
+		bool bIsShown = true;
+		float* mColor[4];
+
+		SWaypoint() {};
+		SWaypoint(std::string wpName, SDK::FVector wpLocation, SDK::FRotator wpRotation) { waypointName = wpName; waypointLocation = wpLocation; waypointRotation = wpRotation; }
+	};
+	std::vector<SWaypoint> db_waypoints;
+	std::vector<std::pair<std::string, SDK::UClass*>> db_filteredEnts;
+
 };
 extern config Config;
