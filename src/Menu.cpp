@@ -236,7 +236,7 @@ namespace DX11_Base
         {
 
             ImGui::Text("NuLL");
-            ImGui::Text("Version v1.7");
+            ImGui::Text("Version v2.0");
             ImGui::Text("Credits to: bluesword007");
             ImGui::Text("Credits to: UnknownCheats.me");
 

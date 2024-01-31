@@ -7,6 +7,7 @@ Simple internal built with various code snippets and SDK from UC.me
 - Modify Speed
 - Modify Attack
 - Modify Defense
+- Infinite Health
 - Infinite Stamina
 - Infinite Ammo
 - Show Player Position
@@ -18,10 +19,9 @@ Simple internal built with various code snippets and SDK from UC.me
 - Give EXP
 - Teleport Home
 - Toggle Fly
-- Godmode
-- Max Weight (Only works in SP)
-- Set Catch Rate (Only works in SP)
+- Revive
 - Item Spawner
+- Easy Pal Condensation - Requires only 1 Pal for all upgrade levels
 
 # Teleporter
 - All Boss Locations
@@ -29,7 +29,9 @@ Simple internal built with various code snippets and SDK from UC.me
 
 # Entity List
 - This menu displays a list of nearby entities (Players, NPCs and monsters) which you can TP to and/or kill.
-- List can be filtered for players only.
+- List can be filtered for playeyers and pals.
+- Force Join Guild
+- Set 1 HP
 - 'Mask It' can be used on your player entity to hide player name.
 
 # Misc
@@ -39,12 +41,12 @@ Simple internal built with various code snippets and SDK from UC.me
 - Unlock All Effigies
 
 # SS
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/6529f412-a70c-4861-8ea6-f66ac51ce440)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/776fc059-900d-4708-b26a-7be6e824eed7)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/0418b4af-2452-4cd4-a3a0-888af9afaa0b)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8ac29708-22a6-4700-9635-04d1db483888)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/05d172fc-2a74-45a4-85c2-002e0bb51266)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/8873508a-ba82-4a3b-ad25-d0aec1995f87)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/e34db15b-dd00-4db6-88b3-f9a9604791b4)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/adf3fe60-82d8-4178-b2e1-2079733087c0)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/09827949-5b04-47cd-91f5-5f061b031bf3)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/f6fa879f-065b-4607-a2a9-9be52f1176f0)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/1c18de56-2bba-44bc-96d5-a7e280a7076b)
+![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/b31fbd67-b803-4070-a2f4-a8e599654e9f)
 
 # AOBS
 > GObjects: `48 8B 05 ? ? ? ? 48 8B 0C C8 4C 8D 04 D1 EB 03`  
