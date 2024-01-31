@@ -11,7 +11,6 @@ void ClientBGThread()
 {
     while (g_Running)
     {
-        //  test cache runners
 
         std::this_thread::sleep_for(1ms);
         std::this_thread::yield();
@@ -41,6 +40,7 @@ DWORD WINAPI MainThread_Initialize()
 
     ///  RENDER LOOP
     g_Running = TRUE;
+
     std::thread WCMUpdate(ClientBGThread); // Initialize Loops Thread
     while (g_Running)
     {
@@ -48,14 +48,15 @@ DWORD WINAPI MainThread_Initialize()
         {
             g_GameVariables->m_ShowMenu = !g_GameVariables->m_ShowMenu;
             g_GameVariables->m_ShowHud = !g_GameVariables->m_ShowMenu;
-        
-        }
-    }
 
-    if (g_KillSwitch)
-    {
-        g_KillSwitch = false;
-        g_Hooking->Unhook();
+        }
+
+
+        if (g_KillSwitch)
+        {
+            g_KillSwitch = false;
+            g_Hooking->Unhook();
+        }
     }
 
     ///  EXIT

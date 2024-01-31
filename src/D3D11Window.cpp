@@ -41,6 +41,7 @@ bool HookCursor()
 namespace DX11_Base {
 	static uint64_t* MethodsTable = NULL;
 
+	//	@TODO: boolean for active window
 	LRESULT D3D11Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (g_GameVariables->m_ShowMenu) {
@@ -218,18 +219,12 @@ namespace DX11_Base {
 		b_ImGui_Initialized = FALSE;
 		return 0;
 	}
-	
+
 	/// <summary>
 	/// RENDER LOOP
 	/// </summary>
 	HRESULT APIENTRY D3D11Window::HookPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 	{
-		if (g_KillSwitch) {
-			g_Hooking->Unhook();
-			g_D3D11Window->oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
-			g_Running = FALSE;
-			return 0;
-		}
 		g_D3D11Window->Overlay(pSwapChain);
 		return g_D3D11Window->oIDXGISwapChainPresent(pSwapChain, SyncInterval, Flags);
 	}
@@ -266,7 +261,7 @@ namespace DX11_Base {
 		DisableAll();
 		return;
 	}
-	
+
 	void D3D11Window::DisableHook(uint16_t Index)
 	{
 		assert(Index >= 0);
