@@ -1,7 +1,6 @@
 # PalWorld Internal
 Simple internal built with various code snippets and SDK from UC.me
 - Note: The master branch does not include visuals
-- Note: You must build SDK before you can compile
 
 # Player Features
 - Modify Speed
@@ -46,7 +45,6 @@ Simple internal built with various code snippets and SDK from UC.me
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/09827949-5b04-47cd-91f5-5f061b031bf3)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/f6fa879f-065b-4607-a2a9-9be52f1176f0)
 ![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/1c18de56-2bba-44bc-96d5-a7e280a7076b)
-![image](https://github.com/NuLLxD/PalWorld-NetCrack-NuLL/assets/965358/b31fbd67-b803-4070-a2f4-a8e599654e9f)
 
 # AOBS
 > GObjects: `48 8B 05 ? ? ? ? 48 8B 0C C8 4C 8D 04 D1 EB 03`  
