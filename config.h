@@ -37,6 +37,7 @@ public:
 	bool IsForgeMode = false;
 	bool IsGodMode = false;
 	bool bisOpenWaypoints = false;
+	bool IsPartnerSkill = false;
 	float SpeedModiflers = 1.0f;
 	//def and value
 	float mDebugESPDistance = 5.0f;

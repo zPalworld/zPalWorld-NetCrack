@@ -541,13 +541,11 @@ void SetPlayerHealth(__int32 newHealth)
 		return;
 
 	FFixedPoint64 maxHP = pParams->GetMaxHP();
+	if (newHealth > maxHP.Value)
+		newHealth = maxHP.Value;
 
-	if (newHealth > static_cast<__int32>(maxHP.Value))
-	{
-		newHealth = static_cast<__int32>(maxHP.Value);
-	}
-
-	pParams->SetHP(FFixedPoint64(newHealth));
+	FFixedPoint newHealthPoint = FFixedPoint(newHealth);
+	pPalPlayerCharacter->ReviveCharacter_ToServer(newHealthPoint);
 }
 
 void ForceJoinGuild(SDK::APalCharacter* targetPlayer)

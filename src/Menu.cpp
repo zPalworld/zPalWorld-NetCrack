@@ -230,6 +230,7 @@ namespace DX11_Base
 
                 memory::WriteToMemory(easycondense, patch, 5);
             }
+
         }
 
         void TABConfig()
