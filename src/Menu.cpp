@@ -833,24 +833,24 @@ namespace DX11_Base
 	void Menu::HUD(bool* p_open)
 	{
         
-        //ImGui::SetNextWindowPos(g_D3D11Window->pViewport->WorkPos);
-        //ImGui::SetNextWindowSize(g_D3D11Window->pViewport->WorkSize);
-        //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, NULL);
-        //ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.00f, 0.00f, 0.00f, 0.00f));
-        //if (!ImGui::Begin("##HUDWINDOW", (bool*)true, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs))
-        //{
-        //    ImGui::PopStyleColor();
-        //    ImGui::PopStyleVar();
-        //    ImGui::End();
-        //    return;
-        //}
-        //ImGui::PopStyleColor();
-        //ImGui::PopStyleVar();
+        ImGui::SetNextWindowPos(g_D3D11Window->pViewport->WorkPos);
+        ImGui::SetNextWindowSize(g_D3D11Window->pViewport->WorkSize);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, NULL);
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.00f, 0.00f, 0.00f, 0.00f));
+        if (!ImGui::Begin("##HUDWINDOW", (bool*)true, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs))
+        {
+            ImGui::PopStyleColor();
+            ImGui::PopStyleVar();
+            ImGui::End();
+            return;
+        }
+        ImGui::PopStyleColor();
+        ImGui::PopStyleVar();
 
-        //auto ImDraw = ImGui::GetWindowDrawList();
-        //auto draw_size = g_D3D11Window->pViewport->WorkSize;
-        //auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
-        //auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
+        auto ImDraw = ImGui::GetWindowDrawList();
+        auto draw_size = g_D3D11Window->pViewport->WorkSize;
+        auto center = ImVec2({ draw_size.x * .5f, draw_size.y * .5f });
+        auto top_center = ImVec2({ draw_size.x * .5f, draw_size.y * 0.0f });
         
         // // Watermark
         //ImDraw->AddText(top_center, g_Menu->dbg_RAINBOW, "PalWorld-NetCrack");
