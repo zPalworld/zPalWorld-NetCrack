@@ -355,7 +355,7 @@ void ResetStamina()
 	}
 }
 
-//	
+// 	
 void GiveExperiencePoints(__int32 mXP)
 {
 	auto pPalPlayerState = Config.GetPalPlayerState();

@@ -537,6 +537,59 @@ namespace DX11_Base
 			ImGui::ShowDemoWindow();
 	}
 
+    void Menu::Waypoints()
+    {
+        float windowWidth = 300.0f;
+        float windowHeight = 150.0f;
+
+        if (!ImGui::Begin("Waypoints", &g_GameVariables->m_ShowMenu, ImGuiWindowFlags_NoResize))
+        {
+            ImGui::End();
+            return;
+        }
+
+        ImGui::InputTextWithHint("##INPUT_SETWAYPOINT", "Set Name", inputBuffer_setWaypoint, 32);
+        ImGui::SameLine();
+        if (ImGui::Button("Add", ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+        {
+            std::string wpName = inputBuffer_setWaypoint;
+            if (wpName.size() > 0)
+            {
+                AddWaypointLocation(wpName);
+                memset(inputBuffer_setWaypoint, 0, 32);
+            }
+        }
+        ImVec2 contentSize;
+        if (Config.db_waypoints.size() > 0)
+        {
+            if (ImGui::BeginChild("##CHILD_WAYPOINTS", { 0.0f, 100.f }))
+            {
+                DWORD index = -1;
+                for (auto waypoint : Config.db_waypoints)
+                {
+                    index++;
+                    ImGui::PushID(index);
+                    //  ImGui::Checkbox("SHOW", &waypoint.bIsShown);
+                    //  ImGui::SameLine();
+                    if (ImGui::Button(waypoint.waypointName.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20)))
+                        AnyWhereTP(waypoint.waypointLocation, false);
+                    ImGui::PopID();
+                }
+
+                contentSize = ImGui::GetWindowSize();
+
+                ImGui::EndChild();
+            }
+        }
+
+        windowWidth = (((windowWidth) > (contentSize.x)) ? (windowWidth) : (contentSize.x));
+        windowHeight = (((windowHeight) > (contentSize.y)) ? (windowHeight) : (contentSize.y));
+        ImGui::SetWindowSize(ImVec2(windowWidth, windowHeight));
+
+        ImGui::End();
+
+    }
+
     void Menu::EntityList()
     {
         if (!ImGui::Begin("Entity List", &g_GameVariables->m_ShowMenu, 96))
@@ -632,7 +685,7 @@ namespace DX11_Base
                 ImGui::SameLine();
                 if (ImGui::Button("TP"))
                 {
-                    if (Config.GetPalPlayerCharacter() != NULL)
+                    if (T[i]->IsA(SDK::APalCharacter::StaticClass()))
                     {
                         if (Character)
                         {
@@ -691,59 +744,6 @@ namespace DX11_Base
         }
         
         ImGui::End();
-    }
-
-    void Menu::Waypoints()
-    {
-        float windowWidth = 300.0f;
-        float windowHeight = 150.0f;
-
-        if (!ImGui::Begin("Waypoints", &g_GameVariables->m_ShowMenu, ImGuiWindowFlags_NoResize))
-        {
-            ImGui::End();
-            return;
-        }
-
-        ImGui::InputTextWithHint("##INPUT_SETWAYPOINT", "Set Name", inputBuffer_setWaypoint, 32);
-        ImGui::SameLine();
-        if (ImGui::Button("Add", ImVec2(ImGui::GetContentRegionAvail().x, 20)))
-        {
-            std::string wpName = inputBuffer_setWaypoint;
-            if (wpName.size() > 0)
-            {
-                AddWaypointLocation(wpName);
-                memset(inputBuffer_setWaypoint, 0, 32);
-            }
-        }
-        ImVec2 contentSize;
-        if (Config.db_waypoints.size() > 0)
-        {
-            if (ImGui::BeginChild("##CHILD_WAYPOINTS", { 0.0f, 100.f }))
-            {
-                DWORD index = -1;
-                for (auto waypoint : Config.db_waypoints)
-                {
-                    index++;
-                    ImGui::PushID(index);
-                    //  ImGui::Checkbox("SHOW", &waypoint.bIsShown);
-                    //  ImGui::SameLine();
-                    if (ImGui::Button(waypoint.waypointName.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 20)))
-                        AnyWhereTP(waypoint.waypointLocation, false);
-                    ImGui::PopID();
-                }
-
-                contentSize = ImGui::GetWindowSize();
-
-                ImGui::EndChild();
-            }
-        }
-
-        windowWidth = (((windowWidth) > (contentSize.x)) ? (windowWidth) : (contentSize.x));
-        windowHeight = (((windowHeight) > (contentSize.y)) ? (windowHeight) : (contentSize.y));
-        ImGui::SetWindowSize(ImVec2(windowWidth, windowHeight));
-
-        ImGui::End();
-
     }
 	
     void Menu::MainMenu()
@@ -873,6 +873,10 @@ namespace DX11_Base
         //  Revive Player
         if ((GetAsyncKeyState(VK_F6) & 1))
             ReviveLocalPlayer();
+        
+        //
+        if (Config.IsTeleportAllToXhair)
+            TeleportAllPalsToCrosshair(Config.mDebugEntCapDistance);
 
         //  
         if (Config.IsSpeedHack)
@@ -903,10 +907,6 @@ namespace DX11_Base
         {
             SetInfiniteAmmo(false);
         }
-
-       //
-        if (Config.IsTeleportAllToXhair)
-            TeleportAllPalsToCrosshair(Config.mDebugEntCapDistance);
 
         //  
         //  SetDemiGodMode(Config.IsMuteki);
