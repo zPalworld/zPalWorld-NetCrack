@@ -879,14 +879,26 @@ namespace DX11_Base
         //  
         if (Config.IsSpeedHack)
             SpeedHack(Config.SpeedModiflers);
+        else
+        {
+            SpeedHack(1.0f); // Turn off the feature
+        }
         
         //  
         if (Config.IsAttackModiler)
             SetPlayerAttackParam(Config.DamageUp);
+        else
+        {
+            SetPlayerAttackParam(1.0f); // Turn off the feature
+        }
 
         //  
         if (Config.IsDefuseModiler)
             SetPlayerDefenseParam(Config.DefuseUp);
+        else
+        {
+            SetPlayerDefenseParam(1.0f); // Turn off the feature
+        }
 
         //  
         if (Config.IsInfStamina)
