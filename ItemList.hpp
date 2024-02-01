@@ -686,7 +686,6 @@ namespace itemlist
         "BowGun_3|Crossbow(Rare)",
         "BowGun_4|Crossbow(Epic)",
         "BowGun_5|Crossbow(Legendary)",
-        "DebugHandgun|Debug Handgun",
         "DecalGun_1|Decal Gun 1",
         "DecalGun_2|Decal Gun 2",
         "DecalGun_3|Decal Gun 3",
