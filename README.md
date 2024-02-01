@@ -2,6 +2,10 @@
 Simple internal built with various code snippets and SDK from UC.me
 - Note: The master branch does not include visuals
 
+#Known Issues !!!
+- Easy Condense crash due to change in address
+- Intermittent crash with Entity List open
+
 # Player Features
 - Modify Speed
 - Modify Attack
