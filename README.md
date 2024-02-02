@@ -4,6 +4,15 @@ Simple internal built with various code snippets and SDK from UC.me
 
 - Note: The master branch does not include visuals
 
+# Steps to build
+
+This assumes you have Visual Studio 2022 installed
+
+- Clone or download repo as .zip
+- Open DX11-Base.sln
+- Set build configuration to Release
+- Build solution
+
 ## Known Issues
 
 - Godmode mount bug
