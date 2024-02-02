@@ -613,10 +613,22 @@ namespace DX11_Base
 
                 SDK::APalCharacter* Character = (SDK::APalCharacter*)T[i];
                 SDK::FString name;
-                if (Character->IsLocallyControlled() || Character->GetCharacterParameterComponent()->IsOtomo())
-                {
-                    continue;
-                }
+                if (Config.isfilterSelf)
+                    if (Character)
+                    {
+                        if (Character->IsLocallyControlled())
+                        {
+                            continue;
+                        }
+                        auto ParameterComponent = Character->GetCharacterParameterComponent();
+                        if (ParameterComponent)
+                        {
+                            if (ParameterComponent->IsOtomo())
+                            {
+                                continue;
+                            }
+                        }
+                    }
                 if (Config.filterPlayer)
                 {
                     if (!T[i]->IsA(SDK::APalPlayerCharacter::StaticClass()))

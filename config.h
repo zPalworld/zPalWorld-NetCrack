@@ -31,6 +31,7 @@ public:
 	bool bisOpenManager = false;
 	bool filterPlayer = false;
 	bool filterPal = false;
+	bool isfilterSelf = true;
 	bool bisRandomName = false;
 	bool bisTeleporter = false;
 	bool IsTeleportAllToXhair = false;
