@@ -6,7 +6,6 @@ Simple internal built with various code snippets and SDK from UC.me
 
 ## Known Issues
 
-- Intermittent crash with Entity List open
 - Godmode mount bug
 
 ## Player Features
