@@ -658,6 +658,30 @@ void DeleteWaypoint(DWORD index)
 	// Optionally, you can also update your logic to save changes if needed
 }
 
+int GetCurrentWaypointCount()
+{
+	return SDK::UPalUtility::GetDefaultObj()->GetLocationManager(Config.GetUWorld())->CustomLocations.Count();
+}
+
+void TpToLastWaypoint(bool removeAfter)
+{
+	auto world = Config.GetUWorld();
+	auto aPalUtility = SDK::UPalUtility::GetDefaultObj();
+	auto locationMarks = aPalUtility->GetLocationManager(world)->CustomLocations;
+
+	if (locationMarks.Count() < 1)
+		return;
+
+	auto location = locationMarks[locationMarks.Count() - 1]->Location;
+
+	auto higherLocation = FVector(location.X, location.Y, 100000);
+
+	AnyWhereTP(higherLocation, false);
+
+	if (removeAfter)
+		aPalUtility->GetLocationManager(world)->RemoveLocalCustomLocation(locationMarks[locationMarks.Count() - 1]->ID);
+}
+
 void RenderWaypointsToScreen()
 {
 	APalCharacter* pPalCharacater = Config.GetPalPlayerCharacter();
