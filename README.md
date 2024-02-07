@@ -37,7 +37,7 @@ This assumes you have Visual Studio 2022 installed
 - Easy Pal Condensation - Requires only 1 Pal for all upgrade levels
 
 ## Cage Spawner - Thanks to contributor FriendlyButFire
-- Spawn any Pal you want in syndicate cage
+- Spawn any Pal you want in cage
 > [!Note]
 > This only works in Single Player/Co-Op Host game modes
 
