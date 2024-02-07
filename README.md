@@ -13,11 +13,7 @@ This assumes you have Visual Studio 2022 installed
 - Open DX11-Base.sln
 - Set build configuration to Release
 - Build solution
-
-## Known Issues
-
-- Godmode mount bug
-
+  
 ## Player Features
 
 - Modify Speed
@@ -39,6 +35,11 @@ This assumes you have Visual Studio 2022 installed
 - Revive
 - Item Spawner
 - Easy Pal Condensation - Requires only 1 Pal for all upgrade levels
+
+## Cage Spawner - Thanks to contributor FriendlyButFire
+- Spawn any Pal you want in syndicate cage
+> [!Note]
+> This only works in Single Player/Co-Op Host game modes
 
 ## Teleporter
 
